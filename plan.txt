@@ -1,0 +1,5 @@
+10.12
+1、fcn\unet
+2、numpy np.argmax np.max np.maximum np.sort np.argsort np.where
+3、opencv 颜色识别
+4、caffe c++和python版本测试不一致原因
