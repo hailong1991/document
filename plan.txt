@@ -3,3 +3,12 @@
 2、numpy np.argmax np.max np.maximum np.sort np.argsort np.where
 3、opencv 颜色识别
 4、caffe c++和python版本测试不一致原因
+
+周：10.15-10.22
+1、caffe c++、python接口分类（完成）
+2、cuda
+3、yolo论文、reid
+4、pytorch fasterrcnn
+
+10.15
+1、caffe c++、python接口分类
