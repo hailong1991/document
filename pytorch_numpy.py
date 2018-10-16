@@ -173,6 +173,46 @@ range(1,5,0.5) # err
 np.arange(1,5,0.5) # array([ 1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5])
 
 
+print("------type和isinstance --------------")  #用法：isinstance(object, classinfo)
+#isinstance() 与 type() 区别：
+#type() 不会认为子类是一种父类类型，不考虑继承关系。
+#isinstance() 会认为子类是一种父类类型，考虑继承关系。
+class A:
+    pass
+class B(A):
+    pass
+isinstance(A(), A)    # returns True
+type(A()) == A        # returns True
+isinstance(B(), A)    # returns True
+type(B()) == A        # returns False
 
+a = 2
+isinstance (a,int) # True
+isinstance (a,str) # False
+OrderedDict
 
+print("------dict和OrderedDict--------------")
+#常规dict并不跟踪插入顺序，迭代处理会根据键在散列表中存储的顺序来生成值。在OrderDict中则相反，它会记住元素插入的顺序，并在创建迭代器时使用这个顺序
+import collections
+d = {}
+d['a'] = 'A'
+d['b'] = 'B'
+d['c'] = 'C'
+for k, v in d.items():
+  print k, v
+#无序
+a A
+c C
+b B
+
+d = collections.OrderedDict()
+d['a'] = 'A'
+d['b'] = 'B'
+d['c'] = 'C'
+for k, v in d.items():
+  print k, v
+#有序
+a A
+b B
+c C
 

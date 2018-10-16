@@ -12,3 +12,7 @@
 
 10.15
 1、caffe c++、python接口分类
+
+10.16
+1、mman换0.3版本的pytorch；
+2、yolo论文
