@@ -16,3 +16,15 @@
 10.16
 1、mman换0.3版本的pytorch；
 2、yolo论文
+
+10.17
+1、pytorch常用接口、cuda
+2、yolo代码
+10.18
+1、看两篇论文
+10.19
+论文+yolo
+
+11.5
+1、总结下分类、yolo、fasterrcnn的训练方法；
+2、reid gpu
