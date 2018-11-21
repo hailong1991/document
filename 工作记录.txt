@@ -1,0 +1,162 @@
+192.168.0.223
+oeasy/123456
+
+svn://zimg.0easy.com/PlateServer_bin
+用户名：tom
+密码：123456
+
+svn地址:https://192.168.0.100/svn/datarep/algorithm_and_control_datacenter/
+用户名：bigdatauser 
+密  码：bigdatauser20171120
+
+
+摄像头：192.168.5.3  admin/oeasy808  
+
+svn st
+查看状态
+svn操作：
+https://blog.csdn.net/liuchong_lch/article/details/78192755
+checkout  :  svn checkout svn://192.168.1.1/pro/domain
+增加：svn add test.cpp
+提交：
+svn commit -m "注释" test.cpp
+
+更新：svn up
+
+删除：直接svn delete test.php 然后再svn ci -m 'delete test file‘，推荐使用这种
+简写： svn (del、remove、rm)
+
+帮助：svn help
+看日志：svn log path
+查看文件信息：svn info path
+
+git 常用：
+
+git clone url
+git status
+git log
+git add file file2 添加到临时目录 
+git commit -m " " 上传到本地仓库
+git push  上传到远程服务器
+git pull 远程更新
+git reset id 返回特定版本
+rm  然后提交  删除本地版本库
+git branch  列出分支
+git diff 显示暂存区和工作区的代码差异
+git show [commit]  显示某次提交的元数据和内容变化
+git reset --hard 重置暂存区与工作区，与上一次commit保持一致
+
+git branch [branch-name] 新建一个分支，但依然停留在当前分支
+git checkout -b [branch] 新建一个分支，并切换到该分支
+git checkout [branch-name] 切换到指定分支，并更新工作区
+git checkout - 切换到上一个分支
+git branch -d [branch-name] 删除分支
+
+码云第一次提交需要配置：
+git config user.email "https://lihailong1991@gitee.com"
+git config user.name "lihailong1991"
+
+
+github第一次提交：
+git config user.email "710769034@qq.com"
+git config user.name "hailong1991"
+
+git push 提示：
+Username for 'https://github.com': hailong1991
+Password for 'https://hailong1991@github.com': long****
+
+提交过程：
+git add *
+git commit -m "xxx"  #添加到本地
+git push             #远程添加到服务器
+
+git status
+
+下载过程：git pull   #从服务器下载
+
+
+
+
+
+
+
+
+scp oeasy@192.168.0.223:/home/oeasy/PlateServer_yolo3/PlateServer_yolo3_0329_svn/build/parking_http_detect_multi .
+scp -r oeasy@192.168.0.223:/home/oeasy/PlateServer_bin_lhl/lib/darknet .
+
+scp oeasy@192.168.0.223:/home/oeasy/PlateServer_bin_lhl .
+
+
+scp -r oeasy@192.168.0.223:/home/oeasy/PlateServer_bin_lhl/0329 .
+scp -r oeasy@192.168.0.223:/home/oeasy/PlateServer_bin_lhl/0116 .
+scp -r oeasy@192.168.0.223:/home/oeasy/PlateServer_bin_lhl/libs/darknet .
+
+
+启动mongodb服务：sudo mongod -f /etc/mongodb.conf
+sudo mongo --host 192.168.0.223 --port 27017    229:27018   230:27019
+终止mongodb服务：kill -9 processid
+
+注意：
+当只有一台集群服务器运作时，会导致连接失败，至少两台，当主服务器挂的时候，会有一个重新选举主服务器的过程，如果还没选好而去插入数据时会失败，
+所有的数据都是主服务器来写，从服务器可读不可写数据，每台服务器都存有一样的数据。
+
+
+f5 进入  f6 下一步  f8 运行到下一个断点  F11 调试  双击加断点
+返回到调用层，快捷键为F7
+
+
+
+安装软件 apt-get install softname1 softname2 softname3……
+卸载软件 apt-get remove softname1 softname2 softname3……
+卸载并清除配置 apt-get remove --purge softname1
+更新软件信息数据库 apt-get update
+进行系统升级 apt-get upgrade
+搜索软件包 apt-cache search softname1 softname2 softname3……
+修正（依赖关系）安装：apt-get -f install
+
+
+安装：sudo dpkg -i xxxxx.deb
+卸载：
+dpkg -l |grep xxx
+#xxx就是安装的软件名
+
+sudo dpkg --purge xxxx
+rm -rf ~/.local/share/xxxx
+
+# teamviewer 后台进程运行
+sudo teamviewer --daemon restart
+
+
+
+查看版本：
+pkg-config --modversion opencv
+
+查看：TensorFlow版本：
+python
+
+import tensorflow as tf
+
+tf.__version__
+
+查询tensorflow安装路径为:
+
+tf.__path__
+
+当前系统默认是使用的anaconda的Python
+系统bin下还有默认安装的pthon2 和Python3
+查看python安装路径：which python
+
+anaconda的执行路径已经加入了$path, 所以当运行pthon和Python3都是anaconda下的环境
+pip 和pip3 对应系统下的Python3
+pip2 对应系统下的Python2
+
+anaconda  安装依赖包需要 conda install 依赖包
+
+sudo bash matlab
+
+
+pycharm中import model 标红:找到目标文件所在的文件夹，标记其为source root即可
+md5sum deep-person-reid/requirements.txt
+
+
+

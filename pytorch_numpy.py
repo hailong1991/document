@@ -402,6 +402,87 @@ print("------torch.sort --------------")
 [torch.LongTensor of size 3]
 )
 
+print("------pytorch 0.4 变化 --------------")
+#1、Tensor现在默认requires_grad=False的Variable了. torch.Tensor和torch.autograd.Variable现在其实是同一个类! 没有本质的区别! 
+#所以也就是说, 现在已经没有纯粹的Tensor了, 是个Tensor, 它就支持自动求导! 你现在要不要给Tensor包一下Variable, 都没有任何意义了
+#2、使用.isinstance()或是x.type(), 用type()不能看tensor的具体类型.
+print(x.type())  # OK: 'torch.DoubleTensor'
+print(type(x))   # "<class 'torch.Tensor'>"
+#3、scalar的支持，scalar是0-维度的Tensor
+#取得一个tensor的值(返回number), 用.item()；创建scalar的话,需要用torch.tensor(number)；torch.tensor(list)也可以进行创建tensor
+# 4、不要显示的指定是gpu, cpu之类的. 利用.to()来执行
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+input = data.to(device)
+model = MyModule(...).to(device)
+#5、torch.tensor来创建Tensor 之前是大写的
+#6、orch.*like以及torch.new_*
+torch.zeros_like(x) #第一个是可以创建, shape相同, 数据类型相同
+x.new_ones(2) # 属性一致， 得到属性与前者相同的Tensor, 但是shape不想要一致:
+x.new_ones(4, dtype=torch.int) # 也可以自定义
+
+
+print("------numpy.concatenate()和torch.view() --------------")
+#多维
+a = np.arange(6).reshape(3,2,1)
+b = np.arange(4).reshape(2,2,1)
+c = np.concatenate((a,b), axis=0)  # => 6*2*1
+c = np.concatenate((a,b), axis=1)  # err
+c = np.concatenate((a,b), axis=2)  # err
+#总结：假设从低维到高维分别是3,2,1，则两个arrary合并是时候高维部分必须相同，否则报错，而且对于多维的合并只能合并其中一维；
+# 低维
+a = a.reshape(6,1)
+b = b.reshae(4,1)
+c = np.concatenate((a,b), axis=0)  # => 10*1
+c = np.concatenate((a,b), axis=1)  # err
+
+b = b.reshae(4,1)
+d = arange.reshae(4,1)
+c = np.concatenate((b,d), axis=0)  # => 8*1
+c = np.concatenate((b,d), axis=1)  # => 4*2
+#总结：二维情况下，两个arrary合并是时候高维部分必须相同，若维度相同可合并两次，那个维度合并则那个维度相加
+
+#对于torch.view()用法一样
+a = torch.from_numpy(a) # shape 6*1
+b = torch.from_numpy(b) # shape 4*1
+c = torch.cat([a,b], dim=0) # => 10*1
+c = torch.cat([a,b], dim=1) # err
+
+print("------np.hstack()和np.vstack() --------------")
+a=[1,2,3]
+b=[4,5,6]
+print(np.hstack((a,b))) # => [1 2 3 4 5 6 ] shape 1* 6
+print(np.vstack((a,b))) # => shape 2*3
+# 总结： np.vstack() 可理解为 np.concatenate((a,b), axis=0)， np.hstack() 可理解为 np.concatenate((a,b), axis=1)
+
+print("------matplotlib的使用 --------------")
+#显示一幅图
+img = Image.open(os.path.join('images', '2007_000648' + '.jpg'))
+plt.figure("Image") # 图像窗口名称
+plt.imshow(img)
+plt.axis('on') # 关掉坐标轴为 off
+plt.title('image') # 图像题目
+plt.show()
+
+#显示多幅图
+plt.figure(figsize=(10,5)) #设置窗口大小
+plt.suptitle('Multi_Image') # 图片名称
+plt.subplot(2,3,1), plt.title('image')
+plt.imshow(img), plt.axis('off')
+plt.subplot(2,3,2), plt.title('gray')
+plt.imshow(gray,cmap='gray'), plt.axis('off') #这里显示灰度图要加cmap
+plt.subplot(2,3,3), plt.title('img_merged')
+plt.imshow(img_merged), plt.axis('off')
+plt.subplot(2,3,4), plt.title('r')
+plt.imshow(r,cmap='gray'), plt.axis('off')
+plt.subplot(2,3,5), plt.title('g')
+plt.imshow(g,cmap='gray'), plt.axis('off')
+plt.subplot(2,3,6), plt.title('b')
+plt.imshow(b,cmap='gray'), plt.axis('off')
+
+plt.show()
+
+
+
 		
 
 

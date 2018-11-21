@@ -283,3 +283,54 @@ str = "this is string example....wow!!! this is really string";
 print str.replace("is", "was");
 print str.replace("is", "was", 3);
 
+print("------glob.glob() --------------")
+#glob模块的主要方法就是glob,该方法返回所有匹配的文件路径列表（list）；该方法需要一个参数用来指定匹配的路径字符串（字符串可以为绝对路径也可以为相对路径），
+#其返回的文件名只包括当前目录里的文件名，不包括子文件夹里的文件
+glob.glob(’c:*.txt’) # 获得C盘下的所有txt文件
+glob.glob(’E:\pic**.jpg’) # 我这里就是获得C盘下的所有txt文件
+
+# iglob 获取一个迭代器（ iterator ）对象，使用它可以逐个获取匹配的文件路径名。
+#与glob.glob()的区别是：glob.glob同时获取所有的匹配路径，而 glob.iglob一次只获取一个匹配路径。下面是一个简单的例子
+f = glob.iglob(r'../*.py')
+for py in f:
+    print py # f是一个迭代器对象，通过遍历，可以输出所有满足条件的*.py文件
+	
+print("------ @property    @staticmethod --------------")
+class Rectangle(object):
+  def __init__(self):
+    self.width =10
+    self.height=20
+r=Rectangle()
+r.width=1.0 # 此时属性可以改变，不安全
+
+class Rectangle(object):
+  @property
+  def width(self):
+    #变量名不与方法名重复，改为true_width，下同
+    return self.true_width
+s = Rectangle()
+print (s.width) # 可读变量
+s.width = 1024 # err 会报错，@property 声明私有，此时不能改变，只读变量
+
+class Rectangle(object):
+  @property
+  def width(self):
+    # 变量名不与方法名重复，改为true_width，下同
+    return self.true_width
+  @width.setter
+  def width(self, input_width):
+    self.true_width = input_width
+s = Rectangle()
+# 与方法名一致
+s.width = 1024 # 不会报错，@width.setter声明了可以改变比变量
+
+# 声明以下接口，可对变量删除
+@height.deleter
+def height(self):
+    del self.true_height
+#总结@property声明这是私有变量，只可以读，要写或者删除需要重写@width.setter和@width.deleter
+
+# @staticmethod 声明是静态变量或者静态函数，独立于实例，可以理解为私有函数的一个公共接口，服务于私有函数
+
+
+
