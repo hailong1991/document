@@ -331,6 +331,63 @@ def height(self):
 #总结@property声明这是私有变量，只可以读，要写或者删除需要重写@width.setter和@width.deleter
 
 # @staticmethod 声明是静态变量或者静态函数，独立于实例，可以理解为私有函数的一个公共接口，服务于私有函数
+print("------ list append()和extend()--------------")
+#list.append(object) 向列表中添加一个对象object
+#list.extend(sequence) 把一个序列seq的内容添加到列表中
+music_media = ['compact disc', '8-track tape', 'long playing record']
+new_media = ['DVD Audio disc', 'Super Audio CD']
+music_media.append(new_media) # ['compact disc', '8-track tape', 'long playing record',['DVD Audio disc', 'Super Audio CD']]
+music_media.extend(new_media) # ['compact disc', '8-track tape', 'long playing record','DVD Audio disc', 'Super Audio CD']
 
+
+print("------ list删除元素--------------")
+a = [1,2,2,5,4,2]
+#remove: 删除单个元素，删除首个符合条件的元素，按值删除
+a.remove(2)
+#pop:  删除单个或多个元素，按位删除(根据索引删除)
+a.pop(3)
+#del：它是根据索引(元素所在位置)来删除
+del str[1]
+
+#举例：删除a中所有的2
+#法一：b = [i for i in a if i !=2]
+#法二： #err
+for i in a:
+	if i == 2:
+		a.remove(i)
+#当列表每次删除的时候，后面的索引会向前，导致有些数据会跳过。
+#在上述for循环中，假设我们删除了index=2的值，原本index=3及之后的值会向前补位，所以在循环中就跳过了原index=3的变量 
+#同理，使用list.pop()函数删除指定元素的时候，也会出现上述情况
+
+#举例二：a = [1,2,0,3,0,4],将所有0移到后面，且保持其他顺序不变
+def moveZeroes(self, nums):
+        j=0
+        for i in xrange(len(nums)):
+            if nums[j] == 0:
+                nums.append(nums.pop(j)) # 这里利用了nums.pop(j)删除后返回的值为删除元素的值
+
+            else:
+                j+=1
+
+public int calMaxSumOfArray(int[] a) {
+    if (null == a) {
+        return 0;
+    }
+    if (a.length == 1) {
+        return a[0];
+    }
+    int sum = a[0];
+    int temp = a[0];
+    for (int i = 1; i < a.length; i++) {
+        if (temp < 0) {
+            temp = 0;
+        }
+        temp = temp + a[i];
+        if (sum < temp) {
+            sum = temp;
+        }
+    }
+    return sum;
+}
 
 

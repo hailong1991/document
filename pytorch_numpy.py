@@ -481,6 +481,43 @@ plt.imshow(b,cmap='gray'), plt.axis('off')
 
 plt.show()
 
+# collection apple
+import numpy as np
+def collectMaxAppele(m, n):
+	a = np.array([[1,3,5],[4,6,7],[2,4,9]])
+	sum = np.zeros([3,3])
+	
+	for i in range(a.shape[0]):
+		for j in range(a.shape[1]):
+			if (i==0 and j==0):
+				sum[0,0] = a[0,0]
+				continue
+			up_sum = sum[i-1, j] if (i>0) else 0
+			left_sum = sum[i, j-1] if (j>0) else 0
+			sum[i,j] = max([up_sum, left_sum]) + a[i, j]
+	print (sum[m-1][n-1])
+	print (sum)
+	
+# sum[N] = min(sum[N-3],sum[N-1],sum[N-5]) + 1
+def maxCount(m):
+	sum = [0,1,2,1,2,1]
+	if m < len(sum):
+		return sum[m]
+	for i in range(5, m+1):
+		count = min([sum[i-3],sum[i-1],sum[i-5]]) + 1
+		sum.append(count)
+	return sum[m]
+
+def maxCountOrder(m):
+	sum = [0,1,2,1,2,1]
+	if m < len(sum):
+		return sum[m]
+	
+	return sum[m]
+	
+
+if __name__ == '__main__':
+	collectMaxAppele(3, 3)
 
 
 		
