@@ -391,3 +391,162 @@ public int calMaxSumOfArray(int[] a) {
 }
 
 
+print("------ list底层--------------")
+#1、Python中的列表是由对其它对象的引用组成的连续数组，与c++中的vector类似
+#2、list切片需要重新分配内存得到新的对象 ，而numpy和tensor没有重新分配内存
+#3、字典底层实现是hash表
+#4、set的底层结果类似于字典底层实现，可以理解集合被实现为带有空值的字典
+
+print("------ python3 以当前的py文件为相对路径找文件--------------")
+# -------------包的定义----------
+#1、同一文件夹下有test.py test1.py， test1中可以直接导入test，此时没有包的概念；
+#解释：这是因为这两个文件所在的目录不是一个包，那么每一个 python 文件都是一个独立的、可以直接被其他模块导入的模块，就像你导入标准库一样，它们不存在相对导入和绝对导入的问题
+
+#2、如果想从当前路径下的另外一个文件夹下导入test2.py，此时那个文件夹下必须要有__init__.py,有这个文件才代表是一个包，然后才能导入成功；
+
+# ------------包内的相对导入和绝对导入  https://blog.csdn.net/u013571243/article/details/77734346 --------------
+'''
+1、Python import 的搜索路径
+    在当前目录下搜索该模块 
+    在环境变量 PYTHONPATH 中指定的路径列表中依次搜索
+    在 Python 安装路径的 lib 库中搜索
+	
+	可以使用sys.path查看导入了那些路径；
+	新增路径可以使用sys.path.append('/home/oeasy/disk/home/oeasy/lhl/git_source/12306/12306captcha/captcha_verify')
+
+2、Python import 的步骤
+
+      python 所有加载的模块信息都存放在 sys.modules 结构中，当 import 一个模块时，会按如下步骤来进行
+   如果是 import A，检查 sys.modules 中是否已经有 A，如果有则不加载，如果没有则为 A 创建 module 对象，并加载 A
+   如果是 from A import B，先为 A 创建 module 对象，再解析A，从中寻找B并填充到 A 的 __dict__中
+
+3、相对导入与绝对导入
+
+      绝对导入的格式为 import A.B 或 from A import B
+	  相对导入格式为 from . import B 或 from ..A import B，.代表当前模块，..代表上层模块，...代表上上层模块，依次类推。
+举例：
+thing
+├── books
+│ ├── adventure.py
+│ ├── horror.py
+│ ├── __init__.py
+├── furniture
+│ ├── armchair.py
+│ ├── bench.py
+│ ├── __init__.py
+│ └── stool.py
+└── __init__.py
+
+那么如果在 stool 中引用 bench，则有如下几种方式:
+import bench              # 此为 implicit relative import
+from. importbench         # 此为 explicit relative import
+from furniture import bench # 此为 absolute import
+隐式相对就是没有告诉解释器相对于谁，但默认相对与当前模块；而显示相对则明确告诉解释器相对于谁来导入。
+以上导入方式的第三种，才是官方推荐的，第一种是官方强烈不推荐的，Python3 中已经被废弃，这种方式只能用于导入 path 中的模块
+'''
+# 几点注意
+#1、假设test.py中 调用了 import bench1，或者其调用的子包调用了import bench2，此时都是以执行文件为基准的，无论是bench1还是bench2，他们的导入都是相对当前执行文件的；
+#2、相对导入与绝对导入仅针对于包内导入而言，要不然本文所讨论的内容就没有意义。所谓的包，就是包含 __init__.py 文件的目录，
+#   该文件在包导入时会被首先执行，该文件可以为空，也可以在其中加入任意合法的该文件在包导入时会被首先执行，该文件可以为空，也可以在其中加入任意合法的 Python 代码
+#3、前面提到含有相对导入的模块不能被直接运行，举例如下
+
+'''
+目录树
+　　testIm/
+　　--__init__.py
+　　--main.py : from Tom import tom
+　　--Tom/
+　　　　--__init__.py : print("I'm Tom's __init__!")
+　　　　--tom.py : from . import tomBrother, from .. import kate,print("I'm Tom!")
+　　　　--tomBrother.py print(I'm Tom's Brother!)
+　　--Kate/
+　　　　--__init__.py : print("I'm Kate's __init__!")
+　　　　--kate.py
+运行文件：main.py 出现以下信息
+
+I'm Tom's __init__!
+I'm Tom's Brother!
+Traceback (most recent call last):
+File "D:\PythonLearning\TestIm\main.py", line 3, in <module>
+from Tom import tom
+File "D:\PythonLearning\TestIm\Kate\kate.py", line 4, in <module>
+from .. import kate
+ValueError: attempted relative import beyond top-level package
+
+执行流程：进入main ->进入Tom执行__init__.py 执行 tomBrother.py tom.py 当运行到from .. import kate报错 
+原因：在testIm文件夹下把main函数作为函数入口，该文件夹虽然有__init__.py，但是不能被python解释器当做包，即Tom上层不存在上层包，所以从上层下的kate导入会失败
+解决办法：
+将main.py移到testIm外面在执行
+
+'''
+
+#4、实际上含有绝对导入的模块也不能被直接运行，会出现 ImportError：
+'''
+目录树
+---data/
+　　--__init__.py
+　　--data_process.py
+	--dataset.py : from data import data_process 绝对路径导入
+运行文件：python3 dataset.py      报错    报错原因：以当前 dataset.py 为基准，找不到相对路径data
+运行文件：python3 data/dataset.py 还是报错
+解决办法：python3 -m data.dataset 告诉解释器模块的层次结构
+		  或者改成 import data_process
+'''
+#5、包中包含绝对导入和相对导入的模块，当确实需要直接运行包内代码的时候怎么办？
+#解决办法：方法一：要运行包中包含绝对导入和相对导入的模块，可以用 python -m A.B.C 告诉解释器模块的层次结构
+#	       方法二：在包的外层封装一层 进行调用
+
+#5 python xxx.py 和 python -m xxx.py 的区别
+#这是两种加载py文件的方式: 1叫做直接运行 2相当于import,叫做当做模块来启动
+
+
+print("------ python 闭包--------------")
+#定义：如果在一个内部函数里，对在外部作用域（但不是在全局作用域）的变量进行引用，那么内部函数就被认为是闭包(closure).
+#闭包理解： 如果在一个函数的内部定义了另一个函数，外部的我们叫他外函数，内部的我们叫他内函数；
+#           在一个外函数中定义了一个内函数，内函数里运用了外函数的临时变量，并且外函数的返回值是内函数的引用。这样就构成了一个闭包
+#举例如下：
+def ExFunc(n):
+     sum=n
+     def InsFunc():
+             return sum+1
+     return InsFunc
+	 
+#注意事项---------------
+#1、闭包中是不能修改外部作用域的局部变量的
+>>> def foo():  
+...     m = 0  
+...     def foo1():  
+...         m = 1  
+...         print m  
+...     print m  
+...     foo1()  
+...     print m  
+>>> foo()  
+0  
+1  
+0
+#从执行结果可以看出，虽然在闭包里面也定义了一个变量m，但是其不会改变外部函数中的局部变量m
+
+print("------ python hasattr() etattr() setattr() 函数-------------")
+class test():
+   name="xiaohua"
+   def run(self):
+   return "HelloWord"
+
+t=test()
+hasattr(t, "name") #判断对象有name属性 True
+hasattr(t, "run")  #判断对象有run方法 False
+
+getattr(t, "name") #获取name属性
+getattr(t, "run")  #获取run方法
+
+hasattr(t, "age")   #判断属性是否存在
+setattr(t, "age", "18")   #为属相赋值，并没有返回值
+hasattr(t, "age")    #属性存在了
+
+
+
+	 
+
+
+

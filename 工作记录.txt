@@ -71,6 +71,23 @@ git commit -m "xxx"  #添加到本地
 git push             #远程添加到服务器
 
 git status
+git remote -v  显示当前所有远程库的详细信息，显示格式为 远程库名字 url连接(类型)
+
+创建git:
+现在github上新建工程，然后到代码库执行以下操作
+echo "# person_attr" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/hailong1991/person_attr.git
+git push -u origin master
+
+关于回退：
+回退到某个版本：git reset --hard 版本号  版本号可以通过 git log获得
+
+回退add: git reset HEAD file 或者 git rm --cached file
+
+回退commit： git rm --cached file  如果是文件夹  git rm -r --cached file_root 
 
 下载过程：git pull   #从服务器下载
 
@@ -160,3 +177,4 @@ md5sum deep-person-reid/requirements.txt
 
 
 
+ayoupvvpwrsabdaj

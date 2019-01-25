@@ -425,7 +425,7 @@ print("------numpy.concatenate()和torch.view() --------------")
 #多维
 a = np.arange(6).reshape(3,2,1)
 b = np.arange(4).reshape(2,2,1)
-c = np.concatenate((a,b), axis=0)  # => 6*2*1
+c = np.concatenate((a,b), axis=0)  # => 5*2*1
 c = np.concatenate((a,b), axis=1)  # err
 c = np.concatenate((a,b), axis=2)  # err
 #总结：假设从低维到高维分别是3,2,1，则两个arrary合并是时候高维部分必须相同，否则报错，而且对于多维的合并只能合并其中一维；
