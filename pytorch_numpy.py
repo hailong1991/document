@@ -20,7 +20,16 @@ ix 为 array([[False, False, False],
        [False,  True, False]], dtype=bool)
 则：
 np.where(ix) #(array([1, 1, 2]), array([0, 1, 1]))，得到的是变量为true的索引
-np.where(a > 6) ==== np.where([False, False, False,True,  True]) #等价
+
+总结：
+a > 6            ==> [False, False, False,True,  True]
+a[a>6]           ==> [8, 10]
+
+index = np.where(a > 6)  ==> (array([3,4]),)
+a[index]           ==> [8, 10]
+#a>6 和 np.where(a > 6) 都是获取索引，结果形式不一样
+#a[a>6]和a[index] 都可以获得一样结果
+# 应用实例：a = np.ones(5) b = np.random.rand((5, 10)) b[a>0]可以获得对应的二维数据
 
 2、np.argmax np.max np.maximum np.sort np.argsort
 a = np.arange(20).reshape(5, 2, 2)
@@ -388,7 +397,7 @@ print("------torch.sort --------------")
 #沿给定dim维度返回输入张量input中 k 个最大值。 如果不指定dim，则默认为input的最后一维。 如果为largest为 False ，则返回最小的 k 个值。
 >>> x = torch.arange(1, 6)
 >>> torch.topk(x, 3)
-(5,43
+(5,4,3
 [torch.FloatTensor of size 3]
 ,
  4,3,2
@@ -514,14 +523,65 @@ def maxCountOrder(m):
 		return sum[m]
 	
 	return sum[m]
-	
 
-if __name__ == '__main__':
-	collectMaxAppele(3, 3)
+print("------ contiguous()--------------")
+#如果在view之前用了transpose, permute等，需要用contiguous()来返回一个contiguous copy。 
+#因为view需要tensor的内存是连续的 所以x.contiguous().view()   contiguous()返回一个连续的内存拷贝
+#在pytorch的最新版本0.4版本中，增加了torch.reshape(), 这与 numpy.reshape 的功能类似。它大致相当于 tensor.contiguous().view()
+
+print("------ --------------")
+   
 
 
 		
+构造函数保护或私有；
+声明一个静态对象指针；
+声明一个公共返回实例接口；
+class Single
+{
+	protected:
+		Single() {
+			pthread_mutex_init(&mutex);
+		}
+	private:
+		static pthread_mutex_t mutex;
+		static Single* p;
+	public:
+		static Single* getInstance();
+}
+Single* Single::mutex;
+Single* Single::p = NULL;
+Single* Single::getInstance()
+{
+	if (p == NULL)
+	{
+		pthread_mutex_lock(&mutex);
+		if (p==NULL)
+			p = new Single();
+		pthread_mutex_unlock(&mutex);
+	}
+	return p;
+}
 
+class Single
+{
+	protected:
+		Single() {
+			pthread_mutex_init(&mutex);
+		}
+	private:
+		static pthread_mutex_t mutex;
+	public:
+		static Single* getInstance();
+}
+Single* Single::mutex;
+Single* Single::getInstance()
+{
+	pthread_mutex_lock(&mutex);
+	static Single obj;
+	pthread_mutex_unlock(&mutex);
+	return &obj;
+}
 
 
 

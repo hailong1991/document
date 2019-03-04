@@ -544,6 +544,61 @@ hasattr(t, "age")   #判断属性是否存在
 setattr(t, "age", "18")   #为属相赋值，并没有返回值
 hasattr(t, "age")    #属性存在了
 
+print("------ python 生成器、迭代器、装饰器-------------")
+#几个概念
+#可迭代对象 -Iterable  包含'__iter__()'属性
+#常见的有 str list dict set tuple
+
+#迭代器 -Iterator       包含'__iter__()'属性 和'__next__()'属性
+# 包括生成器和带yield的generator function，如 (it for it in list_a),这是个生成器
+#generator就是一种iterator。而且Gennerator这个类是继承了Iterator的
+
+#总结：定义可迭代对象类需要定义'__iter__()'属性
+#      定义迭代器需要定义'__iter__()'属性和'__next__()'属性
+
+#装饰器 --当我们想要给一个函数func()增加某些功能，但又不希望修改func()函数的源代码的时候就需要用装饰器了
+
+#首先我们必须得明白：函数也是一个对象（python里一切皆对象），且可以赋值给其他变量。例如：
+def home():
+    print("欢迎来到XX首页！")
+
+f = home
+f()
+
+#假设你原先的网站首页是这个函数：
+def home():
+    print("欢迎来到XX首页！")
+
+home()
+
+#那么怎么做到，不改变home的源码给它加上添加登录功能呢？看下面的代码，注意其中的讲解：
+ 1 def login(func):
+ 2     """
+ 3     在这里从新定义一个高阶函数，
+ 4     这就是decorator。
+ 5     我们一会儿会仔细分析。
+ 6     """
+	   @functools.wraps(func) # 加上这句，就不会改变home.__name__属性
+ 7     def wrapper(*args, **kwargs):
+ 8         user = "zingp"   # 假设这是数据库中的用户名和密码
+ 9         passwd = "123"
+10         username = input("输入用户名：")
+11         password = input("输入密码：")
+12         if username == user and password == passwd:
+13             return func(*args, **kwargs)
+14         else:
+15             print("用户名或密码错误。")
+16     return wrapper
+17 
+18 
+19 @login     # 利用python的@语法，把decorator置于home函数的定义处 相当于home = login(home)
+20 def home():
+21     print("欢迎来到XX首页！")
+22 
+23 home() #相当于login(home)()，调用login这个函数后的返回值，即变成了 wrapper()
+
+
+
 
 
 	 
